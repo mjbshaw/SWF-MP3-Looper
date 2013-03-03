@@ -1,0 +1,29 @@
+<UI version="4.0" >
+ <class>SWFMP3LooperClass</class>
+ <widget class="QMainWindow" name="SWFMP3LooperClass" >
+  <property name="objectName" >
+   <string notr="true">SWFMP3LooperClass</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>600</width>
+	<height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>SWFMP3Looper</string>
+  </property>
+  <widget class="QMenuBar" name="menuBar" />
+  <widget class="QToolBar" name="mainToolBar" />
+  <widget class="QWidget" name="centralWidget" />
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources>
+   <include location="swfmp3looper.qrc"/>
+ </resources>
+ <connections/>
+</UI>
