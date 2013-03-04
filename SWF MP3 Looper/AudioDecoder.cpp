@@ -82,7 +82,7 @@ AVFrame* AudioDecoder::decodeFrame()
 		int gotFrame = 0;
 		int result = avcodec_decode_audio4(codec.get(), frame.get(), &gotFrame, &decodingPacket);
 
-		if (result >= 0 && gotFrame != 0)
+		if (result >= 0 && gotFrame)
 		{
 			decodingPacket.size -= result;
 			decodingPacket.data += result;
@@ -106,7 +106,7 @@ AVFrame* AudioDecoder::decodeFrame()
 			int gotFrame = 0;
 			int result = avcodec_decode_audio4(codec.get(), frame.get(), &gotFrame, &decodingPacket);
 
-			if (result >= 0 && gotFrame != 0)
+			if (result >= 0 && gotFrame)
 			{
 				decodingPacket.size -= result;
 				decodingPacket.data += result;
@@ -120,6 +120,17 @@ AVFrame* AudioDecoder::decodeFrame()
 		}
 
 		av_free_packet(&readingPacket);
+	}
+
+	if (codec->codec->capabilities & CODEC_CAP_DELAY)
+	{
+		av_init_packet(&readingPacket);
+
+		int gotFrame = 0;
+		if (avcodec_decode_audio4(codec.get(), frame.get(), &gotFrame, &readingPacket) >= 0 && gotFrame)
+		{
+			return frame.get();
+		}
 	}
 
 	return nullptr;
