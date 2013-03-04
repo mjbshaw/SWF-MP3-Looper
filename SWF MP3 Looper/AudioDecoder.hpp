@@ -21,6 +21,8 @@ public:
 	int getSampleRate() const;
 	int64_t getDuration() const;
 
+	AVFrame* decodeFrame();
+
 private:
 	// Visual Studio 2010 doesn't allow deletion of these...
 	AudioDecoder(const AudioDecoder&) {}
@@ -31,6 +33,9 @@ private:
 	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
 	std::unique_ptr<AVCodecContext, std::function<int(AVCodecContext*)>> codec;
 	std::unique_ptr<AVFormatContext, std::function<void(AVFormatContext*)>> format;
+
+	AVPacket decodingPacket;
+	AVPacket readingPacket;
 };
 
 #endif

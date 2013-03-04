@@ -8,6 +8,14 @@ AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
 	codec(nullptr, avcodec_close),
 	format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); })
 {
+	av_init_packet(&decodingPacket);
+	decodingPacket.data = nullptr;
+	decodingPacket.size = 0;
+
+	av_init_packet(&readingPacket);
+	readingPacket.data = nullptr;
+	readingPacket.size = 0;
+
 	frame.reset(avcodec_alloc_frame());
 	if (!frame)
 	{
@@ -65,4 +73,54 @@ int AudioDecoder::getSampleRate() const
 int64_t AudioDecoder::getDuration() const
 {
 	return format->duration;
+}
+
+AVFrame* AudioDecoder::decodeFrame()
+{
+	if (decodingPacket.size > 0)
+	{
+		int gotFrame = 0;
+		int result = avcodec_decode_audio4(codec.get(), frame.get(), &gotFrame, &decodingPacket);
+
+		if (result >= 0 && gotFrame != 0)
+		{
+			decodingPacket.size -= result;
+			decodingPacket.data += result;
+			return frame.get();
+		}
+		else
+		{
+			decodingPacket.size = 0;
+			decodingPacket.data = nullptr;
+		}
+	}
+
+	av_free_packet(&readingPacket);
+
+	while (av_read_frame(format.get(), &readingPacket) == 0)
+	{
+		if (readingPacket.stream_index == audioStream->index)
+		{
+			decodingPacket = readingPacket;
+
+			int gotFrame = 0;
+			int result = avcodec_decode_audio4(codec.get(), frame.get(), &gotFrame, &decodingPacket);
+
+			if (result >= 0 && gotFrame != 0)
+			{
+				decodingPacket.size -= result;
+				decodingPacket.data += result;
+				return frame.get();
+			}
+			else
+			{
+				decodingPacket.size = 0;
+				decodingPacket.data = nullptr;
+			}
+		}
+
+		av_free_packet(&readingPacket);
+	}
+
+	return nullptr;
 }
