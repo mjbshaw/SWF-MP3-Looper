@@ -9,7 +9,7 @@ extern "C"
 #include <new>
 #include <stdexcept>
 
-AudioDecoder::AudioDecoder() : audioStream(nullptr),
+AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
 	frame(nullptr, av_free),
 	codec(nullptr, avcodec_close),
 	format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); })
@@ -21,7 +21,7 @@ AudioDecoder::AudioDecoder() : audioStream(nullptr),
 	}
 
 	AVFormatContext* ctx = NULL;
-	if (avformat_open_input(&ctx, "path", nullptr, nullptr) != 0)
+	if (avformat_open_input(&ctx, source.c_str(), nullptr, nullptr) != 0)
 	{
 		throw std::runtime_error("Error opening the file");
 	}

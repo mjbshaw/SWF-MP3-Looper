@@ -9,13 +9,14 @@ struct AVStream;
 struct AVCodecContext;
 }
 
+#include <string>
 #include <memory>
 #include <functional>
 
 class AudioDecoder
 {
 public:
-	AudioDecoder();
+	AudioDecoder(const std::string& source);
 
 private:
 	// Visual Studio 2010 doesn't allow deletion of these...
