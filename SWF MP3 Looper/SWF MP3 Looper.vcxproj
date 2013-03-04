@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioDecoder.cpp" />
+    <ClCompile Include="AudioEncoder.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_swfmp3looper.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -120,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioDecoder.hpp" />
+    <ClInclude Include="AudioEncoder.hpp" />
     <ClInclude Include="GeneratedFiles\ui_swfmp3looper.h" />
   </ItemGroup>
   <ItemGroup>
