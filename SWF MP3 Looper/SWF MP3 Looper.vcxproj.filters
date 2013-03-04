@@ -56,6 +56,9 @@
     <ClCompile Include="AudioEncoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Transcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="swfmp3looper.h">
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioEncoder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transcode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
