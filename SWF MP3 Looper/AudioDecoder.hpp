@@ -19,6 +19,7 @@ public:
 	AudioDecoder();
 
 private:
+	// Visual Studio 2010 doesn't allow deletion of these...
 	AudioDecoder(const AudioDecoder&) {}
 	AudioDecoder& operator=(const AudioDecoder&) {return *this;}
 
