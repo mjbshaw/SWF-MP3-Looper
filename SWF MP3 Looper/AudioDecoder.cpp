@@ -4,7 +4,6 @@ extern "C"
 {
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
-#include <libswresample/swresample.h>
 }
 
 #include <new>
@@ -13,8 +12,7 @@ extern "C"
 AudioDecoder::AudioDecoder() : audioStream(nullptr),
 	frame(nullptr, av_free),
 	codec(nullptr, avcodec_close),
-	format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); }),
-	swr(nullptr, [](SwrContext* s) { swr_free(&s); })
+	format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); })
 {
 	frame.reset(avcodec_alloc_frame());
 	if (!frame)

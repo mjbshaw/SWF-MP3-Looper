@@ -7,7 +7,6 @@ struct AVFrame;
 struct AVFormatContext;
 struct AVStream;
 struct AVCodecContext;
-struct SwrContext;
 }
 
 #include <memory>
@@ -28,8 +27,6 @@ private:
 	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
 	std::unique_ptr<AVCodecContext, std::function<int(AVCodecContext*)>> codec;
 	std::unique_ptr<AVFormatContext, std::function<void(AVFormatContext*)>> format;
-	std::unique_ptr<SwrContext, std::function<void(SwrContext*)>> swr;
-
 };
 
 #endif
