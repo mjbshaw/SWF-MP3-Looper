@@ -35,6 +35,11 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 	{
 		throw std::runtime_error("Could not initialize the SWR context");
 	}
+
+	AVFrame* frame;
+	while (frame = decoder.decodeFrame())
+	{
+	}
 	
 	return buffer;
 }
