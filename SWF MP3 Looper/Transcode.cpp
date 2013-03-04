@@ -36,9 +36,17 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 		throw std::runtime_error("Could not initialize the SWR context");
 	}
 
+	const int swrBufferSizeInSamples = 44100;
+	const int sampleSize = av_get_bytes_per_sample(encoder.getSampleFormat());
+	std::unique_ptr<unsigned char[]> swrBuffer(new unsigned char[sampleSize * swrBufferSizeInSamples]);
+	unsigned char* outPtrs[SWR_CH_MAX] = {nullptr};
+	outPtrs[0] = swrBuffer.get();
+
 	AVFrame* frame;
 	while (frame = decoder.decodeFrame())
 	{
+		int numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
+		// Now pass off swrBuffer.data() to encoder
 	}
 	
 	return buffer;
