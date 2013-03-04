@@ -13,5 +13,8 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 
 	std::unique_ptr<SwrContext, std::function<void(SwrContext*)>> swr(nullptr, [](SwrContext* s) { swr_free(&s); });
 
+	AudioDecoder decoder(source);
+	AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
+
 	return buffer;
 }
