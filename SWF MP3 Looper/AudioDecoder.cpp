@@ -61,3 +61,8 @@ int AudioDecoder::getSampleRate() const
 {
 	return codec->sample_rate;
 }
+
+int64_t AudioDecoder::getDuration() const
+{
+	return format->duration;
+}

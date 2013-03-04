@@ -19,6 +19,7 @@ public:
 	uint64_t getChannelLayout() const;
 	AVSampleFormat getSampleFormat() const;
 	int getSampleRate() const;
+	int64_t getDuration() const;
 
 private:
 	// Visual Studio 2010 doesn't allow deletion of these...
