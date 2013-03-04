@@ -1,11 +1,5 @@
 #include "AudioDecoder.hpp"
 
-extern "C"
-{
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-}
-
 #include <new>
 #include <stdexcept>
 
@@ -46,4 +40,24 @@ AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
 		throw std::runtime_error("Couldn't open the context with the decoder");
 	}
 	codec.reset(audioStream->codec);
+}
+
+uint64_t AudioDecoder::getChannelLayout() const
+{
+	if (codec->channel_layout <= 0)
+	{
+		return av_get_default_channel_layout(codec->channels);
+	}
+	
+	return codec->channel_layout;
+}
+
+AVSampleFormat AudioDecoder::getSampleFormat() const
+{
+	return codec->sample_fmt;
+}
+
+int AudioDecoder::getSampleRate() const
+{
+	return codec->sample_rate;
 }

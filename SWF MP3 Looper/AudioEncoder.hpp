@@ -3,9 +3,8 @@
 
 extern "C"
 {
-struct AVFrame;
-struct AVCodec;
-struct AVCodecContext;
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
 }
 
 #include <memory>
@@ -15,6 +14,10 @@ class AudioEncoder
 {
 public:
 	AudioEncoder(int sampleRate, int audioQuality, int vbrQuality);
+	
+	uint64_t getChannelLayout() const;
+	AVSampleFormat getSampleFormat() const;
+	int getSampleRate() const;
 
 private:
 	AudioEncoder(const AudioEncoder&) {}

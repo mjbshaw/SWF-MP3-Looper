@@ -117,3 +117,18 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 		throw std::runtime_error("Could not set up the audio frame");
 	}
 }
+
+uint64_t AudioEncoder::getChannelLayout() const
+{
+	return context->channel_layout;
+}
+
+AVSampleFormat AudioEncoder::getSampleFormat() const
+{
+	return context->sample_fmt;
+}
+
+int AudioEncoder::getSampleRate() const
+{
+	return context->sample_rate;
+}

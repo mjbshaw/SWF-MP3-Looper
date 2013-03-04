@@ -3,10 +3,8 @@
 
 extern "C"
 {
-struct AVFrame;
-struct AVFormatContext;
-struct AVStream;
-struct AVCodecContext;
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
 }
 
 #include <string>
@@ -17,6 +15,10 @@ class AudioDecoder
 {
 public:
 	AudioDecoder(const std::string& source);
+
+	uint64_t getChannelLayout() const;
+	AVSampleFormat getSampleFormat() const;
+	int getSampleRate() const;
 
 private:
 	// Visual Studio 2010 doesn't allow deletion of these...
