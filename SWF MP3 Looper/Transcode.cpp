@@ -11,8 +11,6 @@ extern "C"
 
 std::vector<unsigned char> transcode(const std::string& source, int sampleRate, int audioQuality, int vbrQuality, std::function<void(float)>)
 {
-	std::vector<unsigned char> buffer;
-
 	AudioDecoder decoder(source);
 	AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
 
@@ -46,14 +44,24 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 	while (frame = decoder.decodeFrame())
 	{
 		int numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
-		// Now pass off swrBuffer.data() to encoder
+		if (numSamplesOut < 0)
+		{
+			throw std::runtime_error("Could not convert the audio data");
+		}
+		encoder.processSamples((const unsigned char**)outPtrs, numSamplesOut);
 	}
 
 	int numSamplesOut = 0;
 	do {
-		numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
-		// Now pass off swrBuffer.data() to encoder
+		// This will conveniently flush the encoder too because we will get a case where there
+		// are no samples in SWR and numSamplesOut will be zero
+		numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, nullptr, 0);
+		if (numSamplesOut < 0)
+		{
+			throw std::runtime_error("Could not convert the audio data");
+		}
+		encoder.processSamples((const unsigned char**)outPtrs, numSamplesOut);
 	} while (numSamplesOut > 0);
 	
-	return buffer;
+	return encoder.getEncodedData();
 }

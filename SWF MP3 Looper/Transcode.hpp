@@ -5,6 +5,6 @@
 #include <string>
 #include <vector>
 
-std::vector<unsigned char> transcode(const std::string& source, int sampleRate, int audioQuality, int vbrQuality, std::function<void(float)>);
+std::vector<unsigned char> transcode(const std::string& source, int sampleRate, int audioQuality, int vbrQuality, std::function<void(float)> = std::function<void(float)>());
 
 #endif

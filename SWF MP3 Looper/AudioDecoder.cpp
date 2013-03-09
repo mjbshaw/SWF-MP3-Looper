@@ -22,19 +22,19 @@ AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
 		throw std::bad_alloc();
 	}
 
-	AVFormatContext* ctx = NULL;
+	AVFormatContext* ctx = nullptr;
 	if (avformat_open_input(&ctx, source.c_str(), nullptr, nullptr) != 0)
 	{
 		throw std::runtime_error("Error opening the file");
 	}
 	format.reset(ctx);
 
-	if (avformat_find_stream_info(format.get(), NULL) < 0)
+	if (avformat_find_stream_info(format.get(), nullptr) < 0)
 	{
 		throw std::runtime_error("Error finding the stream info");
 	}
 
-	AVCodec* cdc = NULL;
+	AVCodec* cdc = nullptr;
 	int stream = av_find_best_stream(format.get(), AVMEDIA_TYPE_AUDIO, -1, -1, &cdc, 0);
 	if (stream < 0)
 	{
@@ -43,7 +43,7 @@ AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
 	audioStream = format->streams[stream];
 
 	audioStream->codec->codec = cdc;
-	if (avcodec_open2(audioStream->codec, audioStream->codec->codec, NULL) != 0)
+	if (avcodec_open2(audioStream->codec, audioStream->codec->codec, nullptr) != 0)
 	{
 		throw std::runtime_error("Couldn't open the context with the decoder");
 	}

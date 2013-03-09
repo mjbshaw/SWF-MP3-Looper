@@ -1,19 +1,14 @@
 #include "AudioEncoder.hpp"
 
-extern "C"
-{
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-}
-
 #include <new>
 #include <stdexcept>
+#include <iostream>
 
 AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : codec(nullptr),
 	frame(nullptr, av_free),
+	fifo(nullptr, av_audio_fifo_free),
 	context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); })
 {
-
 	const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
 	const int channelLayout = AV_CH_LAYOUT_STEREO;
 
@@ -104,6 +99,12 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 		throw std::runtime_error("Could not open codec");
 	}
 
+	fifo.reset(av_audio_fifo_alloc(context->sample_fmt, context->channels, context->frame_size));
+	if (!fifo)
+	{
+		throw std::bad_alloc();
+	}
+
 	frame->nb_samples = context->frame_size;
 	frame->format = context->sample_fmt;
 	frame->channel_layout = context->channel_layout;
@@ -116,6 +117,11 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 	{
 		throw std::runtime_error("Could not set up the audio frame");
 	}
+}
+
+int AudioEncoder::getChannelCount() const
+{
+	return context->channels;
 }
 
 uint64_t AudioEncoder::getChannelLayout() const
@@ -131,4 +137,84 @@ AVSampleFormat AudioEncoder::getSampleFormat() const
 int AudioEncoder::getSampleRate() const
 {
 	return context->sample_rate;
+}
+
+const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
+{
+	return encodedData;
+}
+
+// Call with zero samples to flush the buffer
+void AudioEncoder::processSamples(const unsigned char** buffer, int sampleCount)
+{
+	const int unitSize = getChannelCount() * av_get_bytes_per_sample(getSampleFormat());
+	int totalSamples = 0;
+
+	if (sampleCount > 0)
+	{
+		if (av_audio_fifo_write(fifo.get(), (void**)buffer, sampleCount) < 0)
+		{
+			std::cerr << "Error writing to the audio FIFO\n";
+		}
+
+		while (av_audio_fifo_size(fifo.get()) >= context->frame_size)
+		{
+			if (av_audio_fifo_read(fifo.get(), (void**)frame->extended_data, context->frame_size) > 0)
+			{
+				AVPacket pkt;
+				av_init_packet(&pkt);
+				pkt.data = nullptr;
+				pkt.size = 0;
+
+				int gotPacket = 0;
+				if (avcodec_encode_audio2(context.get(), &pkt, frame.get(), &gotPacket) < 0)
+				{
+					std::cerr << "Error encoding audio frame\n";
+				}
+				else if (gotPacket)
+				{
+					encodedData.insert(encodedData.end(), pkt.data, pkt.data + pkt.size);
+					av_free_packet(&pkt);
+				}
+			}
+		}
+	}
+
+	if (sampleCount == 0)
+	{
+		// flush
+		AVPacket pkt;
+		av_init_packet(&pkt);
+		pkt.data = nullptr;
+		pkt.size = 0;
+		int gotPacket = 0;
+
+		while (av_audio_fifo_size(fifo.get()) > 0)
+		{
+			int count = av_audio_fifo_read(fifo.get(), (void**)frame->extended_data, context->frame_size);
+			if (count > 0)
+			{
+				frame->nb_samples = count;
+
+				if (avcodec_encode_audio2(context.get(), &pkt, frame.get(), &gotPacket) < 0)
+				{
+					std::cerr << "Error encoding audio frame\n";
+				}
+				else if (gotPacket)
+				{
+					encodedData.insert(encodedData.end(), pkt.data, pkt.data + pkt.size);
+					av_free_packet(&pkt);
+				}
+			}
+		}
+
+		if (codec->capabilities & CODEC_CAP_DELAY)
+		{
+			while (avcodec_encode_audio2(context.get(), &pkt, nullptr, &gotPacket) == 0 && gotPacket)
+			{
+				encodedData.insert(encodedData.end(), pkt.data, pkt.data + pkt.size);
+				av_free_packet(&pkt);
+			}
+		}
+	}
 }
