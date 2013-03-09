@@ -35,21 +35,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="swfmp3looper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_swfmp3looper.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_swfmp3looper.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_swfmp3looper.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioDecoder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,22 +44,28 @@
     <ClCompile Include="Transcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SwfMp3Looper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SwfMp3Looper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SwfMp3Looper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="swfmp3looper.h">
+    <CustomBuild Include="SwfMp3Looper.hpp">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="swfmp3looper.ui">
+    <CustomBuild Include="SwfMp3Looper.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="swfmp3looper.qrc">
-      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_swfmp3looper.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioDecoder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="Transcode.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_SwfMp3Looper.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

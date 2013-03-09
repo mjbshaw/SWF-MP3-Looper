@@ -1,4 +1,4 @@
-#include "swfmp3looper.h"
+#include "SwfMp3Looper.hpp"
 #include <QtGui/QApplication>
 
 extern "C"
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	av_register_all();
 
 	QApplication a(argc, argv);
-	SWFMP3Looper w;
+	SwfMp3Looper w;
 	w.show();
 	return a.exec();
 }
