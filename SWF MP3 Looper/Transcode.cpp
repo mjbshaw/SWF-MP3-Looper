@@ -48,6 +48,12 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 		int numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
 		// Now pass off swrBuffer.data() to encoder
 	}
+
+	int numSamplesOut = 0;
+	do {
+		numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
+		// Now pass off swrBuffer.data() to encoder
+	} while (numSamplesOut > 0);
 	
 	return buffer;
 }
