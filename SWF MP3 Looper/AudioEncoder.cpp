@@ -4,10 +4,10 @@
 #include <stdexcept>
 #include <iostream>
 
-AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : codec(nullptr),
-	frame(nullptr, av_free),
+AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
 	fifo(nullptr, av_audio_fifo_free),
-	context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); })
+	frame(nullptr, av_free),
+	codec(nullptr)
 {
 	const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
 	const int channelLayout = AV_CH_LAYOUT_STEREO;

@@ -3,10 +3,10 @@
 #include <new>
 #include <stdexcept>
 
-AudioDecoder::AudioDecoder(const std::string& source) : audioStream(nullptr),
-	frame(nullptr, av_free),
+AudioDecoder::AudioDecoder(const std::string& source) : format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); }),
 	codec(nullptr, avcodec_close),
-	format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); })
+	frame(nullptr, av_free),
+	audioStream(nullptr)
 {
 	av_init_packet(&decodingPacket);
 	decodingPacket.data = nullptr;

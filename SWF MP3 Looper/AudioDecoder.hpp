@@ -28,11 +28,12 @@ private:
 	AudioDecoder(const AudioDecoder&) {}
 	AudioDecoder& operator=(const AudioDecoder&) {return *this;}
 
-	AVStream* audioStream;
 	// Order of these members is important (so that they are destroyed in the right order)
-	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
-	std::unique_ptr<AVCodecContext, std::function<int(AVCodecContext*)>> codec;
 	std::unique_ptr<AVFormatContext, std::function<void(AVFormatContext*)>> format;
+	std::unique_ptr<AVCodecContext, std::function<int(AVCodecContext*)>> codec;
+	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
+
+	AVStream* audioStream;
 
 	AVPacket decodingPacket;
 	AVPacket readingPacket;

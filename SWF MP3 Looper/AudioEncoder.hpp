@@ -31,13 +31,14 @@ private:
 	AudioEncoder& operator= (const AudioEncoder&) {return *this;}
 
 	std::vector<unsigned char> encodedData;
-	AVCodec* codec;
 
 	// Order of these members is important (so that they are destroyed in the right order)
-	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
-	std::unique_ptr<unsigned char[]> frameBuffer;
-	std::unique_ptr<AVAudioFifo, std::function<void(AVAudioFifo*)>> fifo;
 	std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>> context;
+	std::unique_ptr<AVAudioFifo, std::function<void(AVAudioFifo*)>> fifo;
+	std::unique_ptr<unsigned char[]> frameBuffer;
+	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
+
+	AVCodec* codec;
 };
 
 #endif
