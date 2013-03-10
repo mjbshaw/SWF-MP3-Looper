@@ -4,7 +4,7 @@
 #include "AudioEncoder.hpp"
 
 #include <QtGui/QFileDialog>
-#include <QErrorMessage>
+#include <QMessageBox>
 
 SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 	: QDialog(parent)
@@ -62,8 +62,7 @@ void SwfMp3Looper::saveAs()
 		}
 		catch (std::exception& e)
 		{
-			QErrorMessage dialog(this);
-			dialog.showMessage(e.what());
+			QMessageBox::critical(this, "Error!", e.what());
 		}
 	}
 }
