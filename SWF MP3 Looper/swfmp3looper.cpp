@@ -4,6 +4,7 @@
 #include "AudioEncoder.hpp"
 
 #include <QtGui/QFileDialog>
+#include <QErrorMessage>
 
 SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 	: QDialog(parent)
@@ -47,14 +48,22 @@ void SwfMp3Looper::saveAs()
 						 ui.sampleRateComboBox->currentIndex() == 1 ? 22050 :
 																	  44100;
 		
-		AudioDecoder decoder(source);
-		AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
+		try
+		{
+			AudioDecoder decoder(source);
+			AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
 
-		std::function<void(float)> callback = [this](float t) {
-			ui.progressBar->setValue((int)(t * 100));
-			QApplication::processEvents();
-		};
+			std::function<void(float)> callback = [this](float t) {
+				ui.progressBar->setValue((int)(t * 100));
+				QApplication::processEvents();
+			};
 
-		transcode(decoder, encoder, callback);
+			transcode(decoder, encoder, callback);
+		}
+		catch (std::exception& e)
+		{
+			QErrorMessage dialog(this);
+			dialog.showMessage(e.what());
+		}
 	}
 }
