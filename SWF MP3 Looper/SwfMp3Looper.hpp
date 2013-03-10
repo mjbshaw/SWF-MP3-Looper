@@ -14,6 +14,11 @@ public:
 
 private:
 	Ui::SwfMp3Looper ui;
+
+private slots:
+	void sourceChanged(const QString& source);
+	void selectFile();
+	void saveAs();
 };
 
 #endif
