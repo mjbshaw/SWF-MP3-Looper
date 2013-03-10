@@ -2,7 +2,6 @@
 #define TRANSCODE_HPP
 
 #include <functional>
-#include <string>
 #include <vector>
 
 class AudioDecoder;
