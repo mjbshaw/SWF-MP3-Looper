@@ -15,6 +15,7 @@ SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 
 	connect(ui.selectFileButton, SIGNAL(pressed()), this, SLOT(selectFile()));
 	connect(ui.saveAsButton, SIGNAL(pressed()), this, SLOT(saveAs()));
+	connect(ui.cancelButton, SIGNAL(pressed()), this, SLOT(cancel()));
 	connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(sourceChanged(const QString&)));
 }
 
@@ -43,6 +44,9 @@ void SwfMp3Looper::saveAs()
 
 	if (!path.empty())
 	{
+		ui.cancelButton->setEnabled(true);
+		cancelEncode = false;
+
 		std::string className = ui.classNameLineEdit->text().toStdString();
 		int vbrQuality = ui.vbrQualitySlider->value();
 		int audioQuality = ui.algorithmicQualitySlider->value();
@@ -55,9 +59,10 @@ void SwfMp3Looper::saveAs()
 			AudioDecoder decoder(source);
 			AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
 
-			std::function<void(float)> callback = [this](float t) {
+			std::function<bool(float)> callback = [this](float t) -> bool {
 				ui.progressBar->setValue((int)(t * 100));
 				QApplication::processEvents();
+				return !cancelEncode;
 			};
 
 			transcode(decoder, encoder, callback);
@@ -66,5 +71,12 @@ void SwfMp3Looper::saveAs()
 		{
 			QMessageBox::critical(this, "Error!", e.what());
 		}
+
+		ui.cancelButton->setEnabled(false);
 	}
+}
+
+void SwfMp3Looper::cancel()
+{
+	cancelEncode = true;
 }

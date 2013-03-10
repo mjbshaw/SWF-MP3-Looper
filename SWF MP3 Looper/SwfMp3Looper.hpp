@@ -14,11 +14,13 @@ public:
 
 private:
 	Ui::SwfMp3Looper ui;
+	bool cancelEncode;
 
 private slots:
 	void sourceChanged(const QString& source);
 	void selectFile();
 	void saveAs();
+	void cancel();
 };
 
 #endif

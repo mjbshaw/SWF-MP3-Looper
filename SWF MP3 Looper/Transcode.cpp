@@ -9,7 +9,7 @@ extern "C"
 
 #include <stdexcept>
 
-std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<void(float)> callback)
+std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<bool(float)> callback)
 {
 	SwrContext* swrTemp = swr_alloc_set_opts(nullptr,
 		encoder.getChannelLayout(),
@@ -56,7 +56,10 @@ std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encode
 		if (callback)
 		{
 			float t = (float)((totalSamplesRead * AV_TIME_BASE) / decoder.getSampleRate()) / (float)decoder.getDuration();
-			callback(t);
+			if (!callback(t))
+			{
+				return encoder.getEncodedData();
+			}
 		}
 	}
 
@@ -75,7 +78,10 @@ std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encode
 		if (callback)
 		{
 			float t = (float)((totalSamplesRead * AV_TIME_BASE) / decoder.getSampleRate()) / (float)decoder.getDuration();
-			callback(t);
+			if (!callback(t))
+			{
+				return encoder.getEncodedData();
+			}
 		}
 	} while (numSamplesOut > 0);
 
