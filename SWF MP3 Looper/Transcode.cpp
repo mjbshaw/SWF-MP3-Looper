@@ -33,7 +33,8 @@ std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encode
 
 	const int swrBufferSizeInSamples = 44100;
 	const int sampleSize = av_get_bytes_per_sample(encoder.getSampleFormat());
-	std::unique_ptr<unsigned char[]> swrBuffer(new unsigned char[sampleSize * swrBufferSizeInSamples]);
+	const int channelCount = encoder.getChannelCount();
+	std::unique_ptr<unsigned char[]> swrBuffer(new unsigned char[channelCount * sampleSize * swrBufferSizeInSamples]);
 	unsigned char* outPtrs[SWR_CH_MAX] = {nullptr};
 	outPtrs[0] = swrBuffer.get();
 
