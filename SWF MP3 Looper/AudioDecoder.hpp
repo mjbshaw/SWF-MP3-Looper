@@ -20,6 +20,7 @@ public:
 	AVSampleFormat getSampleFormat() const;
 	int getSampleRate() const;
 	int64_t getDuration() const;
+	int getDelay() const;
 
 	AVFrame* decodeFrame();
 

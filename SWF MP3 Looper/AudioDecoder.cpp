@@ -75,6 +75,11 @@ int64_t AudioDecoder::getDuration() const
 	return format->duration;
 }
 
+int AudioDecoder::getDelay() const
+{
+	return codec->delay;
+}
+
 AVFrame* AudioDecoder::decodeFrame()
 {
 	if (decodingPacket.size > 0)

@@ -21,6 +21,7 @@ public:
 	uint64_t getChannelLayout() const;
 	AVSampleFormat getSampleFormat() const;
 	int getSampleRate() const;
+	int getDelay() const;
 
 	void processSamples(const unsigned char** buffer, int sampleCount);
 

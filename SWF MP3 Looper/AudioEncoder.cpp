@@ -139,6 +139,11 @@ int AudioEncoder::getSampleRate() const
 	return context->sample_rate;
 }
 
+int AudioEncoder::getDelay() const
+{
+	return context->delay;
+}
+
 const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
 {
 	return encodedData;
