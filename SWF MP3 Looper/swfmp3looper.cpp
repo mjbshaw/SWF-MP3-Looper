@@ -6,6 +6,8 @@
 #include <QtGui/QFileDialog>
 #include <QMessageBox>
 
+#include <exception>
+
 SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 	: QDialog(parent)
 {
