@@ -1,7 +1,7 @@
 #include "SwfMp3Looper.hpp"
 
-SwfMp3Looper::SwfMp3Looper(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags)
+SwfMp3Looper::SwfMp3Looper(QWidget* parent)
+	: QDialog(parent)
 {
 	ui.setupUi(this);
 }
