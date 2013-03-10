@@ -67,6 +67,8 @@ void SwfMp3Looper::saveAs()
 			};
 
 			transcode(decoder, encoder, callback);
+
+			ui.progressBar->setValue(100);
 		}
 		catch (std::exception& e)
 		{
