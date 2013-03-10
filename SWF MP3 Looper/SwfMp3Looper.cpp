@@ -61,7 +61,7 @@ void SwfMp3Looper::saveAs()
 			AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
 
 			std::function<bool(float)> callback = [this](float t) -> bool {
-				ui.progressBar->setValue((int)(t * 100));
+				ui.progressBar->setValue((int)(t * 99)); // 0-99% for transcode, 100% for file save
 				QApplication::processEvents();
 				return !cancelEncode;
 			};
