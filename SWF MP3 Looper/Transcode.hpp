@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
-std::vector<unsigned char> transcode(const std::string& source, int sampleRate, int audioQuality, int vbrQuality, std::function<void(float)> callback = std::function<void(float)>());
+class AudioDecoder;
+class AudioEncoder;
+
+std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<void(float)> callback = std::function<void(float)>());
 
 #endif

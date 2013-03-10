@@ -1,5 +1,7 @@
 #include "SwfMp3Looper.hpp"
 #include "Transcode.hpp"
+#include "AudioDecoder.hpp"
+#include "AudioEncoder.hpp"
 
 #include <QtGui/QFileDialog>
 
@@ -44,12 +46,15 @@ void SwfMp3Looper::saveAs()
 		int sampleRate = ui.sampleRateComboBox->currentIndex() == 0 ? 11025 :
 						 ui.sampleRateComboBox->currentIndex() == 1 ? 22050 :
 																	  44100;
+		
+		AudioDecoder decoder(source);
+		AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
 
 		std::function<void(float)> callback = [this](float t) {
 			ui.progressBar->setValue((int)(t * 100));
 			QApplication::processEvents();
 		};
 
-		transcode(source, sampleRate, audioQuality, vbrQuality, callback);
+		transcode(decoder, encoder, callback);
 	}
 }

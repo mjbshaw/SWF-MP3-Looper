@@ -9,11 +9,8 @@ extern "C"
 
 #include <stdexcept>
 
-std::vector<unsigned char> transcode(const std::string& source, int sampleRate, int audioQuality, int vbrQuality, std::function<void(float)> callback)
+std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<void(float)> callback)
 {
-	AudioDecoder decoder(source);
-	AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
-
 	SwrContext* swrTemp = swr_alloc_set_opts(nullptr,
 		encoder.getChannelLayout(),
 		encoder.getSampleFormat(),
