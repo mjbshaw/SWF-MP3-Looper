@@ -44,13 +44,13 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 	AVFrame* frame;
 	while (frame = decoder.decodeFrame())
 	{
-		totalSamplesRead += frame->nb_samples;
 		int numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, (const uint8_t**)frame->data, frame->nb_samples);
 		if (numSamplesOut < 0)
 		{
 			throw std::runtime_error("Could not convert the audio data");
 		}
 		encoder.processSamples((const unsigned char**)outPtrs, numSamplesOut);
+		totalSamplesRead += numSamplesOut;
 
 		if (callback)
 		{
@@ -61,7 +61,6 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 
 	int numSamplesOut = 0;
 	do {
-		totalSamplesRead += frame->nb_samples;
 		// This will conveniently flush the encoder too because we will get a case where there
 		// are no samples in SWR and numSamplesOut will be zero
 		numSamplesOut = swr_convert(swr.get(), outPtrs, swrBufferSizeInSamples, nullptr, 0);
@@ -70,6 +69,7 @@ std::vector<unsigned char> transcode(const std::string& source, int sampleRate, 
 			throw std::runtime_error("Could not convert the audio data");
 		}
 		encoder.processSamples((const unsigned char**)outPtrs, numSamplesOut);
+		totalSamplesRead += numSamplesOut;
 
 		if (callback)
 		{
