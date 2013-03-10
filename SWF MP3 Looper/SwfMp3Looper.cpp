@@ -26,6 +26,7 @@ SwfMp3Looper::~SwfMp3Looper()
 void SwfMp3Looper::sourceChanged(const QString& source)
 {
 	ui.saveAsButton->setEnabled(!source.isEmpty());
+	ui.progressBar->setValue(0);
 }
 
 void SwfMp3Looper::selectFile()
