@@ -17,7 +17,7 @@ private:
 	bool cancelEncode;
 
 private slots:
-	void sourceChanged(const QString& source);
+	void textChanged(const QString& text);
 	void selectFile();
 	void saveAs();
 	void cancel();

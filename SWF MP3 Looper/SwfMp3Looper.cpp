@@ -17,16 +17,17 @@ SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 	connect(ui.selectFileButton, SIGNAL(pressed()), this, SLOT(selectFile()));
 	connect(ui.saveAsButton, SIGNAL(pressed()), this, SLOT(saveAs()));
 	connect(ui.cancelButton, SIGNAL(pressed()), this, SLOT(cancel()));
-	connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(sourceChanged(const QString&)));
+	connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+	connect(ui.classNameLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 }
 
 SwfMp3Looper::~SwfMp3Looper()
 {
 }
 
-void SwfMp3Looper::sourceChanged(const QString& source)
+void SwfMp3Looper::textChanged(const QString& text)
 {
-	ui.saveAsButton->setEnabled(!source.isEmpty());
+	ui.saveAsButton->setEnabled(!ui.sourceFileLineEdit->text().isEmpty() && !ui.classNameLineEdit->text().isEmpty());
 	ui.progressBar->setValue(0);
 }
 
