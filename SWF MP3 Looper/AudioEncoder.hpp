@@ -22,6 +22,7 @@ public:
 	AVSampleFormat getSampleFormat() const;
 	int getSampleRate() const;
 	int getDelay() const;
+	int getEncodedSampleCount() const;
 
 	void processSamples(const unsigned char** buffer, int sampleCount);
 
@@ -30,6 +31,8 @@ public:
 private:
 	AudioEncoder(const AudioEncoder&) {}
 	AudioEncoder& operator= (const AudioEncoder&) {return *this;}
+
+	int encodedSampleCount;
 
 	std::vector<unsigned char> encodedData;
 

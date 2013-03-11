@@ -7,7 +7,8 @@
 AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
 	fifo(nullptr, av_audio_fifo_free),
 	frame(nullptr, av_free),
-	codec(nullptr)
+	codec(nullptr),
+	encodedSampleCount(0)
 {
 	const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
 	const int channelLayout = AV_CH_LAYOUT_STEREO;
@@ -144,6 +145,11 @@ int AudioEncoder::getDelay() const
 	return context->delay;
 }
 
+int AudioEncoder::getEncodedSampleCount() const
+{
+	return encodedSampleCount;
+}
+
 const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
 {
 	return encodedData;
@@ -152,6 +158,7 @@ const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
 // Call with zero samples to flush the buffer
 void AudioEncoder::processSamples(const unsigned char** buffer, int sampleCount)
 {
+	encodedSampleCount += sampleCount;
 	const int unitSize = getChannelCount() * av_get_bytes_per_sample(getSampleFormat());
 	int totalSamples = 0;
 

@@ -2,6 +2,7 @@
 #include "Transcode.hpp"
 #include "AudioDecoder.hpp"
 #include "AudioEncoder.hpp"
+#include "SwfMp3Sound.hpp"
 
 #include <QtGui/QFileDialog>
 #include <QMessageBox>
@@ -66,7 +67,17 @@ void SwfMp3Looper::saveAs()
 				return !cancelEncode;
 			};
 
-			transcode(decoder, encoder, callback);
+			SwfMp3Sound swf;
+			swf.data = transcode(decoder, encoder, callback);
+			
+			swf.channelCount = encoder.getChannelCount();
+			swf.className = className;
+			swf.sampleCount = encoder.getEncodedSampleCount();
+			swf.sampleRate = encoder.getSampleRate();
+			swf.sampleSize = 8 * av_get_bytes_per_sample(encoder.getSampleFormat());
+			swf.seekSamples = decoder.getDelay() + encoder.getDelay();
+
+			swf.saveSwf(path);
 
 			ui.progressBar->setValue(100);
 		}
