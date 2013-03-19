@@ -7,7 +7,7 @@ This project is released under the [GNU GPL version 2](http://www.gnu.org/licens
 
 Download
 ==============
-A Windows build can be downloaded at: https://github.com/mjbshaw/SWF-MP3-Looper/raw/bin/bin/SWF_MP3_Looper.zip
+A Windows build can be downloaded at: http://github.com/mjbshaw/SWF-MP3-Looper/raw/bin/bin/SWF_MP3_Looper.zip
 
 Note that you will likely have to have the Microsoft Visual C++ 2010 Redistributable Package: http://www.microsoft.com/en-us/download/details.aspx?id=5555
 
