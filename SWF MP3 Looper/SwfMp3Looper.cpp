@@ -35,7 +35,7 @@ void SwfMp3Looper::textChanged(const QString& text)
 
 void SwfMp3Looper::selectFile()
 {
-	QString path = QFileDialog::getOpenFileName(this, "", "", "Lossless audio file (*.wav *.flac)");
+	QString path = QFileDialog::getOpenFileName(this, "", "", "Audio files (*.*)");
 	if (!path.isEmpty())
 	{
 		ui.sourceFileLineEdit->setText(path);
