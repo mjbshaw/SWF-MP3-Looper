@@ -4,14 +4,14 @@
 #include <stdexcept>
 #include <iostream>
 
-AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
+AudioEncoder::AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality) : context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
 	fifo(nullptr, av_audio_fifo_free),
 	frame(nullptr, av_free),
 	codec(nullptr),
 	encodedSampleCount(0)
 {
 	const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
-	const int channelLayout = AV_CH_LAYOUT_STEREO;
+	const int channelLayout = av_get_default_channel_layout(channelCount);
 
 	frame.reset(avcodec_alloc_frame());
 	if (!frame)
@@ -19,7 +19,7 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 		throw std::bad_alloc();
 	}
 
-	codec = avcodec_find_encoder(AV_CODEC_ID_MP3);
+	codec = avcodec_find_encoder(codecId);
 	if (!codec)
 	{
 		throw std::runtime_error("Could not find an MP3 encoder");
@@ -86,6 +86,7 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 		throw std::bad_alloc();
 	}
 
+	// This stuff doesn't affect raw PCM (this stuff is for MP3, specifically)
 	context->flags |= CODEC_FLAG_QSCALE; // VBR
 	context->global_quality = vbrQuality * FF_QP2LAMBDA; // [0, 9] for lame encoder
 	context->compression_level = audioQuality; // [0, 9] for lame encoder
@@ -98,6 +99,11 @@ AudioEncoder::AudioEncoder(int sampleRate, int audioQuality, int vbrQuality) : c
 	if (avcodec_open2(context.get(), codec, nullptr) < 0)
 	{
 		throw std::runtime_error("Could not open codec");
+	}
+
+	if (context->frame_size == 0)
+	{
+		context->frame_size = 1024;
 	}
 
 	fifo.reset(av_audio_fifo_alloc(context->sample_fmt, context->channels, context->frame_size));

@@ -16,6 +16,7 @@ class AudioDecoder
 public:
 	AudioDecoder(const std::string& source);
 
+	int getChannelCount() const;
 	uint64_t getChannelLayout() const;
 	AVSampleFormat getSampleFormat() const;
 	int getSampleRate() const;

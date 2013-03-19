@@ -19,6 +19,8 @@ SwfMp3Looper::SwfMp3Looper(QWidget* parent)
 	connect(ui.cancelButton, SIGNAL(pressed()), this, SLOT(cancel()));
 	connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
 	connect(ui.classNameLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+
+	connect(ui.codecComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(codecChanged(int)));
 }
 
 SwfMp3Looper::~SwfMp3Looper()
@@ -56,11 +58,21 @@ void SwfMp3Looper::saveAs()
 		int sampleRate = ui.sampleRateComboBox->currentIndex() == 0 ? 11025 :
 						 ui.sampleRateComboBox->currentIndex() == 1 ? 22050 :
 																	  44100;
+		int channelCount = ui.channelsComboBox->currentIndex() == 0 ? -1 : // Same as source
+						   ui.channelsComboBox->currentIndex() == 1 ?  2 : // Stereo
+																	   1;  // Mono
+		AVCodecID codecId = ui.codecComboBox->currentIndex() == 0 ? AV_CODEC_ID_MP3 : AV_CODEC_ID_PCM_S16LE;
 		
 		try
 		{
 			AudioDecoder decoder(source);
-			AudioEncoder encoder(sampleRate, audioQuality, vbrQuality);
+
+			if (channelCount < 0) // Same as source
+			{
+				channelCount = decoder.getChannelCount();
+			}
+
+			AudioEncoder encoder(codecId, channelCount, sampleRate, audioQuality, vbrQuality);
 
 			std::function<bool(float)> callback = [this](float t) -> bool {
 				ui.progressBar->setValue((int)(t * 99)); // 0-99% for transcode, 100% for file save
@@ -76,6 +88,7 @@ void SwfMp3Looper::saveAs()
 			swf.sampleCount = encoder.getEncodedSampleCount();
 			swf.sampleRate = encoder.getSampleRate();
 			swf.sampleSize = 8 * av_get_bytes_per_sample(encoder.getSampleFormat());
+			swf.mp3 = codecId == AV_CODEC_ID_MP3;
 			swf.seekSamples = decoder.getDelay() + encoder.getDelay();
 
 			swf.saveSwf(path);
@@ -94,4 +107,17 @@ void SwfMp3Looper::saveAs()
 void SwfMp3Looper::cancel()
 {
 	cancelEncode = true;
+}
+void SwfMp3Looper::codecChanged(int index)
+{
+	if (index == 0) // MP3
+	{
+		ui.algorithmQualityGroup->setEnabled(true);
+		ui.vbrQualityGroup->setEnabled(true);
+	}
+	else // WAV
+	{
+		ui.algorithmQualityGroup->setEnabled(false);
+		ui.vbrQualityGroup->setEnabled(false);
+	}
 }

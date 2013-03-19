@@ -26,7 +26,7 @@ void SwfMp3Sound::saveSwf(const std::string& path) const
 
 	char header[] = {
 		'F', 'W', 'S', // Non compressed flash file
-		10,            // Version
+		10,            // SWF version
 		0, 0, 0, 0,    // File length (fill it in later)
 		8, 0,          // Frame size (0, 0, 0, 0) (we have no graphics...)
 		0, 24,         // FPS (doesn't matter for us; we'll say 24.0)
@@ -37,7 +37,7 @@ void SwfMp3Sound::saveSwf(const std::string& path) const
 		throw std::runtime_error("Error when writing the SWF's header");
 	}
 	
-	char sr = sampleRate == 5512 ? 0 :
+	char sr = sampleRate == 5512 ? 0 : // Note: sample rate 5512 is illegale for MP3
 		sampleRate == 11025 ? 1 :
 		sampleRate == 22050 ? 2 :
 		sampleRate == 44100 ? 3 : -1;
@@ -63,18 +63,18 @@ void SwfMp3Sound::saveSwf(const std::string& path) const
 	// DefineSound tag
 	char defineSound[] = {
 		1, 0,     // ID/tag
-		2  << 4 | // MP3
+		(mp3? 2 : 3)  << 4 | // MP3 or PCM Little endian
 		sr << 2 | // Sample rate
 		ss << 1 | // Sample size
 		cl        // Channel layout
 	};
 	short defineSoundHeader = 14 << 6 | 0x3f;
-	int defineSoundSize = sizeof(defineSound) + 6 + data.size();
+	int defineSoundSize = sizeof(defineSound) + 4 + data.size() + (mp3 ? 2 : 0);
 	if (!file.write((const char*)&defineSoundHeader, 2) ||
 		!file.write((const char*)&defineSoundSize, 4) ||
 		!file.write(defineSound, sizeof(defineSound)) ||
 		!file.write((const char*)&sampleCount, 4) ||
-		!file.write((const char*)&seekSamples, 2) ||
+		(mp3 && !file.write((const char*)&seekSamples, 2)) ||
 		!file.write((const char*)data.data(), data.size()))
 	{
 		throw std::runtime_error("Error when writing the SWF's sound data");

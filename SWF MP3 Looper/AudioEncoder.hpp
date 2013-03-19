@@ -15,7 +15,7 @@ extern "C"
 class AudioEncoder
 {
 public:
-	AudioEncoder(int sampleRate, int audioQuality, int vbrQuality);
+	AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality);
 	
 	int getChannelCount() const;
 	uint64_t getChannelLayout() const;

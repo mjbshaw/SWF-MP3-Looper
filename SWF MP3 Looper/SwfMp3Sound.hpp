@@ -10,6 +10,7 @@ struct SwfMp3Sound
 	int sampleRate;
 	int channelCount;
 	int sampleCount;
+	bool mp3;
 	short seekSamples;
 	std::vector<unsigned char> data;
 

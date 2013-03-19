@@ -21,6 +21,7 @@ private slots:
 	void selectFile();
 	void saveAs();
 	void cancel();
+	void codecChanged(int index);
 };
 
 #endif

@@ -50,6 +50,11 @@ AudioDecoder::AudioDecoder(const std::string& source) : format(nullptr, [](AVFor
 	codec.reset(audioStream->codec);
 }
 
+int AudioDecoder::getChannelCount() const
+{
+	return codec->channels;
+}
+
 uint64_t AudioDecoder::getChannelLayout() const
 {
 	if (codec->channel_layout <= 0)
