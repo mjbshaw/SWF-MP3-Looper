@@ -74,7 +74,7 @@ void SwfMp3Sound::saveSwf(const std::string& path) const
 		!file.write((const char*)&defineSoundSize, 4) ||
 		!file.write(defineSound, sizeof(defineSound)) ||
 		!file.write((const char*)&sampleCount, 4) ||
-		(mp3 && !file.write((const char*)&seekSamples, 2)) ||
+		(mp3 && !file.write((const char*)&seekSamples, 2)) || // This is the key to gapless looping
 		!file.write((const char*)data.data(), data.size()))
 	{
 		throw std::runtime_error("Error when writing the SWF's sound data");
