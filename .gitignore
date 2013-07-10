@@ -1,5 +1,4 @@
-*.sdf
-*.opensdf
-*.suo
-ipch
-Win32
+build-*
+*.user
+lib
+include
