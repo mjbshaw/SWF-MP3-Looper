@@ -9,16 +9,16 @@
 
 #include <exception>
 
-SwfMp3Looper::SwfMp3Looper(QWidget* parent)
-    : QDialog(parent)
+SwfMp3Looper::SwfMp3Looper(QWidget* parent) :
+    QDialog(parent)
 {
     ui.setupUi(this);
 
     connect(ui.selectFileButton, SIGNAL(pressed()), this, SLOT(selectFile()));
     connect(ui.saveAsButton, SIGNAL(pressed()), this, SLOT(saveAs()));
     connect(ui.cancelButton, SIGNAL(pressed()), this, SLOT(cancel()));
-    connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
-    connect(ui.classNameLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
+    connect(ui.sourceFileLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged()));
+    connect(ui.classNameLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged()));
 
     connect(ui.codecComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(codecChanged(int)));
 }
@@ -27,7 +27,7 @@ SwfMp3Looper::~SwfMp3Looper()
 {
 }
 
-void SwfMp3Looper::textChanged(const QString& text)
+void SwfMp3Looper::textChanged()
 {
     ui.saveAsButton->setEnabled(!ui.sourceFileLineEdit->text().isEmpty() && !ui.classNameLineEdit->text().isEmpty());
     ui.progressBar->setValue(0);

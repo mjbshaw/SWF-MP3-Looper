@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11 static
+CONFIG += c++11 static warn_on
 
 TARGET = SWF-MP3-Looper
 TEMPLATE = app

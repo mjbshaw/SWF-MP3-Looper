@@ -4,14 +4,15 @@
 #include <stdexcept>
 #include <iostream>
 
-AudioEncoder::AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality) : context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
+AudioEncoder::AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality) :
+    encodedSampleCount(0),
+    context(nullptr, [](AVCodecContext* c) { avcodec_close(c); av_free(c); }),
     fifo(nullptr, av_audio_fifo_free),
     frame(nullptr, av_free),
-    codec(nullptr),
-    encodedSampleCount(0)
+    codec(nullptr)
 {
     const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
-    const int channelLayout = av_get_default_channel_layout(channelCount);
+    const uint64_t channelLayout = av_get_default_channel_layout(channelCount);
 
     frame.reset(avcodec_alloc_frame());
     if (!frame)
@@ -165,8 +166,6 @@ const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
 void AudioEncoder::processSamples(const unsigned char** buffer, int sampleCount)
 {
     encodedSampleCount += sampleCount;
-    const int unitSize = getChannelCount() * av_get_bytes_per_sample(getSampleFormat());
-    int totalSamples = 0;
 
     if (sampleCount > 0)
     {

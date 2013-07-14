@@ -63,10 +63,11 @@ void SwfMp3Sound::saveSwf(const std::string& path) const
     // DefineSound tag
     char defineSound[] = {
         1, 0,     // ID/tag
+        (char)(
         (mp3? 2 : 3)  << 4 | // MP3 or PCM Little endian
         sr << 2 | // Sample rate
         ss << 1 | // Sample size
-        cl        // Channel layout
+        cl)       // Channel layout
     };
     short defineSoundHeader = 14 << 6 | 0x3f;
     int defineSoundSize = sizeof(defineSound) + 4 + data.size() + (mp3 ? 2 : 0);

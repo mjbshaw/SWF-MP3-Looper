@@ -43,7 +43,7 @@ std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encode
 
     int64_t totalSamplesRead = 0;
     AVFrame* frame;
-    while (frame = decoder.decodeFrame())
+    while ((frame = decoder.decodeFrame()))
     {
         int numSamplesOut = swr_convert(swr.get(), outPtrs.data(), bufferSamplesPerChannel, (const uint8_t**)frame->data, frame->nb_samples);
         if (numSamplesOut < 0)

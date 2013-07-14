@@ -3,7 +3,8 @@
 #include <new>
 #include <stdexcept>
 
-AudioDecoder::AudioDecoder(const std::string& source) : format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); }),
+AudioDecoder::AudioDecoder(const std::string& source) :
+    format(nullptr, [](AVFormatContext* f) { avformat_close_input(&f); }),
     codec(nullptr, avcodec_close),
     frame(nullptr, av_free),
     audioStream(nullptr)
