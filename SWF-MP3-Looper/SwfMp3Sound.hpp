@@ -6,17 +6,17 @@
 
 struct SwfMp3Sound
 {
-	int sampleSize;
-	int sampleRate;
-	int channelCount;
-	int sampleCount;
-	bool mp3;
-	short seekSamples;
-	std::vector<unsigned char> data;
+    int sampleSize;
+    int sampleRate;
+    int channelCount;
+    int sampleCount;
+    bool mp3;
+    short seekSamples;
+    std::vector<unsigned char> data;
 
-	std::string className;
+    std::string className;
 
-	void saveSwf(const std::string& path) const;
+    void saveSwf(const std::string& path) const;
 };
 
 #endif

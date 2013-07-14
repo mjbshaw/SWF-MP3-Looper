@@ -15,34 +15,34 @@ extern "C"
 class AudioEncoder
 {
 public:
-	AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality);
-	
-	int getChannelCount() const;
-	uint64_t getChannelLayout() const;
-	AVSampleFormat getSampleFormat() const;
-	int getSampleRate() const;
-	int getDelay() const;
-	int getEncodedSampleCount() const;
+    AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality);
 
-	void processSamples(const unsigned char** buffer, int sampleCount);
+    int getChannelCount() const;
+    uint64_t getChannelLayout() const;
+    AVSampleFormat getSampleFormat() const;
+    int getSampleRate() const;
+    int getDelay() const;
+    int getEncodedSampleCount() const;
 
-	const std::vector<unsigned char>& getEncodedData() const;
+    void processSamples(const unsigned char** buffer, int sampleCount);
+
+    const std::vector<unsigned char>& getEncodedData() const;
 
 private:
-	AudioEncoder(const AudioEncoder&) {}
-	AudioEncoder& operator= (const AudioEncoder&) {return *this;}
+    AudioEncoder(const AudioEncoder&) {}
+    AudioEncoder& operator= (const AudioEncoder&) {return *this;}
 
-	int encodedSampleCount;
+    int encodedSampleCount;
 
-	std::vector<unsigned char> encodedData;
+    std::vector<unsigned char> encodedData;
 
-	// Order of these members is important (so that they are destroyed in the right order)
-	std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>> context;
-	std::unique_ptr<AVAudioFifo, std::function<void(AVAudioFifo*)>> fifo;
-	std::unique_ptr<unsigned char[]> frameBuffer;
-	std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
+    // Order of these members is important (so that they are destroyed in the right order)
+    std::unique_ptr<AVCodecContext, std::function<void(AVCodecContext*)>> context;
+    std::unique_ptr<AVAudioFifo, std::function<void(AVAudioFifo*)>> fifo;
+    std::unique_ptr<unsigned char[]> frameBuffer;
+    std::unique_ptr<AVFrame, std::function<void(void*)>> frame;
 
-	AVCodec* codec;
+    AVCodec* codec;
 };
 
 #endif

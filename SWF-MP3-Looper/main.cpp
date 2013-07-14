@@ -9,11 +9,11 @@ extern "C"
 
 int main(int argc, char *argv[])
 {
-	avcodec_register_all();
-	av_register_all();
+    avcodec_register_all();
+    av_register_all();
 
-	QApplication a(argc, argv);
-	SwfMp3Looper w;
-	w.show();
-	return a.exec();
+    QApplication a(argc, argv);
+    SwfMp3Looper w;
+    w.show();
+    return a.exec();
 }

@@ -6,22 +6,22 @@
 
 class SwfMp3Looper : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SwfMp3Looper(QWidget *parent = nullptr);
-	~SwfMp3Looper();
+    SwfMp3Looper(QWidget *parent = nullptr);
+    ~SwfMp3Looper();
 
 private:
-	Ui::SwfMp3Looper ui;
-	bool cancelEncode;
+    Ui::SwfMp3Looper ui;
+    bool cancelEncode;
 
 private slots:
-	void textChanged(const QString& text);
-	void selectFile();
-	void saveAs();
-	void cancel();
-	void codecChanged(int index);
+    void textChanged(const QString& text);
+    void selectFile();
+    void saveAs();
+    void cancel();
+    void codecChanged(int index);
 };
 
 #endif
