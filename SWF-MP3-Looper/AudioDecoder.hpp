@@ -14,6 +14,9 @@ extern "C"
 class AudioDecoder
 {
 public:
+    AudioDecoder(const AudioDecoder&) = delete;
+    AudioDecoder& operator=(const AudioDecoder&) = delete;
+
     AudioDecoder(const std::string& source);
 
     int getChannelCount() const;
@@ -26,10 +29,6 @@ public:
     AVFrame* decodeFrame();
 
 private:
-    // Visual Studio 2010 doesn't allow deletion of these...
-    AudioDecoder(const AudioDecoder&) {}
-    AudioDecoder& operator=(const AudioDecoder&) {return *this;}
-
     // Order of these members is important (so that they are destroyed in the right order)
     std::unique_ptr<AVFormatContext, std::function<void(AVFormatContext*)>> format;
     std::unique_ptr<AVCodecContext, std::function<int(AVCodecContext*)>> codec;

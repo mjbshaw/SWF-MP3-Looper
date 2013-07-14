@@ -15,6 +15,9 @@ extern "C"
 class AudioEncoder
 {
 public:
+    AudioEncoder(const AudioEncoder&) = delete;
+    AudioEncoder& operator= (const AudioEncoder&) = delete;
+
     AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, int audioQuality, int vbrQuality);
 
     int getChannelCount() const;
@@ -29,9 +32,6 @@ public:
     const std::vector<unsigned char>& getEncodedData() const;
 
 private:
-    AudioEncoder(const AudioEncoder&) {}
-    AudioEncoder& operator= (const AudioEncoder&) {return *this;}
-
     int encodedSampleCount;
 
     std::vector<unsigned char> encodedData;
