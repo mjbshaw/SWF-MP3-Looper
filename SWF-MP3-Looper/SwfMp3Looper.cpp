@@ -2,7 +2,7 @@
 #include "Transcode.hpp"
 #include "AudioDecoder.hpp"
 #include "AudioEncoder.hpp"
-#include "SwfMp3Sound.hpp"
+#include "SwfSound.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -80,7 +80,7 @@ void SwfMp3Looper::saveAs()
                 return !cancelEncode;
             };
 
-            SwfMp3Sound swf;
+            SwfSound swf;
             swf.data = transcode(decoder, encoder, callback);
 
             swf.channelCount = encoder.getChannelCount();

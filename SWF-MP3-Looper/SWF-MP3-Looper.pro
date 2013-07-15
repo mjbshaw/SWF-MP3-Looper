@@ -24,17 +24,17 @@ win32 {
 
 SOURCES += main.cpp \
     Transcode.cpp \
-    SwfMp3Sound.cpp \
     SwfMp3Looper.cpp \
     AudioEncoder.cpp \
-    AudioDecoder.cpp
+    AudioDecoder.cpp \
+    SwfSound.cpp
 
 HEADERS  += \
     Transcode.hpp \
-    SwfMp3Sound.hpp \
     SwfMp3Looper.hpp \
     AudioEncoder.hpp \
-    AudioDecoder.hpp
+    AudioDecoder.hpp \
+    SwfSound.hpp
 
 FORMS    += \
     SwfMp3Looper.ui

@@ -1,4 +1,4 @@
-#include "SwfMp3Sound.hpp"
+#include "SwfSound.hpp"
 
 #include <vector>
 #include <fstream>
@@ -13,7 +13,7 @@ Instead, I've manually written the bytes here. Once libswfer matures in the pote
 indefinite future, I'll replace all of this messy bit twiddling code.
 */
 
-void SwfMp3Sound::saveSwf(const std::string& path) const
+void SwfSound::saveSwf(const std::string& path) const
 {
     // Assumes little endian
     // Also assumes char == 8 bits, short == 16 bits, int == 32 bits

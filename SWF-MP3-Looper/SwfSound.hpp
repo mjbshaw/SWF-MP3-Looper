@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-struct SwfMp3Sound
+struct SwfSound
 {
     int sampleSize;
     int sampleRate;
