@@ -4,11 +4,6 @@
 #include "AudioEncoder.hpp"
 #include "Transcode.hpp"
 
-extern "C"
-{
-#include <libavcodec/avcodec.h>
-}
-
 /*
 This code is far from ideal. I was working on a SWF compiler/decompiler called libswfer,
 but it's far from complete and I don't currently have time to work on it. libswfer is
@@ -94,8 +89,8 @@ void Swf::addSound(AudioDecoder& decoder, AudioEncoder& encoder, const std::stri
         throw std::invalid_argument("Sample rate is not 5512, 11025, 22050, or 44100 Hz (5512 invalid for MP3)");
     }
 
-    char ss = av_get_bytes_per_sample(encoder.getSampleFormat()) == 1 ? 0 :
-        av_get_bytes_per_sample(encoder.getSampleFormat()) == 2 ? 1 : -1;
+    char ss = encoder.getSampleSize() == 8 ? 0 :
+        encoder.getSampleSize() == 16 ? 1 : -1;
     if (ss < 0)
     {
         throw std::invalid_argument("Sample size is not 8 or 16 bits");
@@ -112,20 +107,20 @@ void Swf::addSound(AudioDecoder& decoder, AudioEncoder& encoder, const std::stri
     char defineSound[] = {
         (char)((classNames.size() + 1) & 0xff), (char)(((classNames.size() + 1) >> 8) & 0xff),     // ID/tag
         (char)(
-        ((encoder.getCodecId() == AV_CODEC_ID_MP3) ? 2 : 3)  << 4 | // MP3 or PCM Little endian
+        (encoder.isMp3() ? 2 : 3)  << 4 | // MP3 or PCM Little endian
         sr << 2 | // Sample rate
         ss << 1 | // Sample size
         cl)       // Channel layout
     };
     short defineSoundHeader = 14 << 6 | 0x3f;
-    int defineSoundSize = sizeof(defineSound) + 4 + data.size() + (encoder.getCodecId() == AV_CODEC_ID_MP3 ? 2 : 0);
+    int defineSoundSize = sizeof(defineSound) + 4 + data.size() + (encoder.isMp3() ? 2 : 0);
     int sampleCount = encoder.getEncodedSampleCount();
     short seekSamples = decoder.getDelay() + encoder.getDelay();
     if (!file.write((const char*)&defineSoundHeader, 2) ||
         !file.write((const char*)&defineSoundSize, 4) ||
         !file.write(defineSound, sizeof(defineSound)) ||
         !file.write((const char*)&sampleCount, 4) ||
-        (encoder.getCodecId() == AV_CODEC_ID_MP3 && !file.write((const char*)&seekSamples, 2)) || // This is the key to gapless looping
+        (encoder.isMp3() && !file.write((const char*)&seekSamples, 2)) || // This is the key to gapless looping
         !file.write((const char*)data.data(), data.size()))
     {
         throw std::runtime_error("Error when writing the SWF's sound data");

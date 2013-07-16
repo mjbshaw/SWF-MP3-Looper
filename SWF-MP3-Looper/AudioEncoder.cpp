@@ -23,7 +23,7 @@ AudioEncoder::AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, 
     codec = avcodec_find_encoder(codecId);
     if (!codec)
     {
-        throw std::runtime_error("Could not find an MP3 encoder");
+        throw std::runtime_error("Could not find an audio encoder");
     }
 
     if (codec->sample_fmts != nullptr)
@@ -157,9 +157,14 @@ int AudioEncoder::getEncodedSampleCount() const
     return encodedSampleCount;
 }
 
-AVCodecID AudioEncoder::getCodecId() const
+bool AudioEncoder::isMp3() const
 {
-    return codec->id;
+    return codec->id == AV_CODEC_ID_MP3;
+}
+
+int AudioEncoder::getSampleSize() const
+{
+    return av_get_bytes_per_sample(context->sample_fmt) * 8;
 }
 
 const std::vector<unsigned char>& AudioEncoder::getEncodedData() const

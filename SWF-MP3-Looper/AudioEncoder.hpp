@@ -26,7 +26,8 @@ public:
     int getSampleRate() const;
     int getDelay() const;
     int getEncodedSampleCount() const;
-    AVCodecID getCodecId() const;
+    bool isMp3() const;
+    int getSampleSize() const;
 
     void processSamples(const unsigned char** buffer, int sampleCount);
 
