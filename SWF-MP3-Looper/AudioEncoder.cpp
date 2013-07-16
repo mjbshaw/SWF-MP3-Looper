@@ -11,7 +11,7 @@ AudioEncoder::AudioEncoder(AVCodecID codecId, int channelCount, int sampleRate, 
     frame(nullptr, av_free),
     codec(nullptr)
 {
-    const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16;
+    const AVSampleFormat sampleFormat = AV_SAMPLE_FMT_S16P;
     const uint64_t channelLayout = av_get_default_channel_layout(channelCount);
 
     frame.reset(avcodec_alloc_frame());
