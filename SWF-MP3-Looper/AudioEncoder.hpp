@@ -26,6 +26,7 @@ public:
     int getSampleRate() const;
     int getDelay() const;
     int getEncodedSampleCount() const;
+    AVCodecID getCodecId() const;
 
     void processSamples(const unsigned char** buffer, int sampleCount);
 

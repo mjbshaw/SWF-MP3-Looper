@@ -27,14 +27,14 @@ SOURCES += main.cpp \
     SwfMp3Looper.cpp \
     AudioEncoder.cpp \
     AudioDecoder.cpp \
-    SwfSound.cpp
+    Swf.cpp
 
 HEADERS  += \
     Transcode.hpp \
     SwfMp3Looper.hpp \
     AudioEncoder.hpp \
     AudioDecoder.hpp \
-    SwfSound.hpp
+    Swf.hpp
 
 FORMS    += \
     SwfMp3Looper.ui

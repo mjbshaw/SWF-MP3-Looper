@@ -157,6 +157,11 @@ int AudioEncoder::getEncodedSampleCount() const
     return encodedSampleCount;
 }
 
+AVCodecID AudioEncoder::getCodecId() const
+{
+    return codec->id;
+}
+
 const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
 {
     return encodedData;

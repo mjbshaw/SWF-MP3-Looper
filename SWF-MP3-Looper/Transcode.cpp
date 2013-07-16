@@ -9,7 +9,7 @@ extern "C"
 
 #include <stdexcept>
 
-std::vector<unsigned char> transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<bool(float)> callback)
+const std::vector<unsigned char>& transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<bool(float)> callback)
 {
     SwrContext* swrTemp = swr_alloc_set_opts(nullptr,
         encoder.getChannelLayout(),
