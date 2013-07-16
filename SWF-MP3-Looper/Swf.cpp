@@ -137,7 +137,7 @@ void Swf::close()
         throw std::logic_error("SWF isn't open for closing");
     }
 
-    std::vector<std::uint16_t> symbolClass(2 + 2 * classNames.size());
+    std::vector<std::uint16_t> symbolClass(1 + classNames.size());
     // Symbol count
     symbolClass[0] = classNames.size();
 
