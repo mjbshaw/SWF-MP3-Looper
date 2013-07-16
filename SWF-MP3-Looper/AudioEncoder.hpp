@@ -8,6 +8,7 @@ extern "C"
 #include <libavutil/audio_fifo.h>
 }
 
+#include <cstdint>
 #include <memory>
 #include <functional>
 #include <vector>

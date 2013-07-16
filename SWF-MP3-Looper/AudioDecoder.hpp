@@ -7,6 +7,7 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 
+#include <cstdint>
 #include <string>
 #include <memory>
 #include <functional>
@@ -20,10 +21,10 @@ public:
     AudioDecoder(const std::string& source);
 
     int getChannelCount() const;
-    uint64_t getChannelLayout() const;
+    std::uint64_t getChannelLayout() const;
     AVSampleFormat getSampleFormat() const;
     int getSampleRate() const;
-    int64_t getDuration() const;
+    std::int64_t getDuration() const;
     int getDelay() const;
 
     AVFrame* decodeFrame();

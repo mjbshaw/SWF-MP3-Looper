@@ -56,7 +56,7 @@ int AudioDecoder::getChannelCount() const
     return codec->channels;
 }
 
-uint64_t AudioDecoder::getChannelLayout() const
+std::uint64_t AudioDecoder::getChannelLayout() const
 {
     if (codec->channel_layout <= 0)
     {
@@ -76,7 +76,7 @@ int AudioDecoder::getSampleRate() const
     return codec->sample_rate;
 }
 
-int64_t AudioDecoder::getDuration() const
+std::int64_t AudioDecoder::getDuration() const
 {
     return format->duration;
 }

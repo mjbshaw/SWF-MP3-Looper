@@ -9,7 +9,7 @@ extern "C"
 
 #include <stdexcept>
 
-const std::vector<unsigned char>& transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<bool(float)> callback)
+const std::vector<std::uint8_t>& transcode(AudioDecoder& decoder, AudioEncoder& encoder, std::function<bool(float)> callback)
 {
     SwrContext* swrTemp = swr_alloc_set_opts(nullptr,
         encoder.getChannelLayout(),
@@ -32,25 +32,25 @@ const std::vector<unsigned char>& transcode(AudioDecoder& decoder, AudioEncoder&
     }
 
     const int bufferSamplesPerChannel = 44100;
-    const int sampleSize = av_get_bytes_per_sample(encoder.getSampleFormat());
+    const int sampleSize = encoder.getSampleSize() / 8;
     const int channelCount = encoder.getChannelCount();
-    std::unique_ptr<unsigned char[]> swrBuffer(new unsigned char[channelCount * sampleSize * bufferSamplesPerChannel]);
-    std::vector<unsigned char*> outPtrs(channelCount, nullptr);
+    std::unique_ptr<std::uint8_t[]> swrBuffer(new std::uint8_t[channelCount * sampleSize * bufferSamplesPerChannel]);
+    std::vector<std::uint8_t*> outPtrs(channelCount, nullptr);
     if (av_samples_fill_arrays(outPtrs.data(), nullptr, swrBuffer.get(), channelCount, bufferSamplesPerChannel, encoder.getSampleFormat(), 0) < 0)
     {
         throw std::runtime_error("Could not set up the SWR buffer pointers");
     }
 
-    int64_t totalSamplesRead = 0;
+    std::int64_t totalSamplesRead = 0;
     AVFrame* frame;
     while ((frame = decoder.decodeFrame()))
     {
-        int numSamplesOut = swr_convert(swr.get(), outPtrs.data(), bufferSamplesPerChannel, (const uint8_t**)frame->data, frame->nb_samples);
+        int numSamplesOut = swr_convert(swr.get(), outPtrs.data(), bufferSamplesPerChannel, (const std::uint8_t**)frame->data, frame->nb_samples);
         if (numSamplesOut < 0)
         {
             throw std::runtime_error("Could not convert the audio data");
         }
-        encoder.processSamples((const unsigned char**)outPtrs.data(), numSamplesOut);
+        encoder.processSamples((const std::uint8_t**)outPtrs.data(), numSamplesOut);
         totalSamplesRead += numSamplesOut;
 
         if (callback)
@@ -72,7 +72,7 @@ const std::vector<unsigned char>& transcode(AudioDecoder& decoder, AudioEncoder&
         {
             throw std::runtime_error("Could not convert the audio data");
         }
-        encoder.processSamples((const unsigned char**)outPtrs.data(), numSamplesOut);
+        encoder.processSamples((const uint8_t**)outPtrs.data(), numSamplesOut);
         totalSamplesRead += numSamplesOut;
 
         if (callback)

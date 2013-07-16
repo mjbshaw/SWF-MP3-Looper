@@ -167,7 +167,7 @@ int AudioEncoder::getSampleSize() const
     return av_get_bytes_per_sample(context->sample_fmt) * 8;
 }
 
-const std::vector<unsigned char>& AudioEncoder::getEncodedData() const
+const std::vector<std::uint8_t>& AudioEncoder::getEncodedData() const
 {
     return encodedData;
 }
