@@ -45,6 +45,9 @@
       <layout class="QHBoxLayout" name="sourceFileLine">
        <item>
         <widget class="QLabel" name="labelSourceFile">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Audio Source File:</string>
          </property>
@@ -52,6 +55,9 @@
        </item>
        <item>
         <widget class="QLineEdit" name="sourceFileLineEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="placeholderText">
           <string>(Required)</string>
          </property>
@@ -59,6 +65,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="selectFileButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Select File...</string>
          </property>
@@ -70,6 +79,9 @@
       <layout class="QHBoxLayout" name="actionScriptLine">
        <item>
         <widget class="QLabel" name="labelClassName">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>ActionScript 3 Class Name:</string>
          </property>
@@ -77,6 +89,9 @@
        </item>
        <item>
         <widget class="QLineEdit" name="classNameLineEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="placeholderText">
           <string>(Required)</string>
          </property>
@@ -88,6 +103,9 @@
       <layout class="QHBoxLayout" name="checkboxAndErrorLine">
        <item>
         <widget class="QCheckBox" name="useDefaultAudioSettings">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -125,6 +143,9 @@
      </item>
      <item>
       <widget class="QGroupBox" name="audioSettingsGroupBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Audio Settings</string>
        </property>
@@ -237,6 +258,9 @@
         </item>
         <item>
          <widget class="QGroupBox" name="algorithmQualityGroup">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>Algorithmic Quality</string>
           </property>
@@ -283,6 +307,9 @@
         </item>
         <item>
          <widget class="QGroupBox" name="vbrQualityGroup">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>VBR Quality</string>
           </property>
