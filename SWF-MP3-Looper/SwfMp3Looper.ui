@@ -15,21 +15,21 @@
   </property>
   <layout class="QHBoxLayout" name="verticalLayout_999">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_199">
+    <layout class="QVBoxLayout" name="leftLayout">
      <item>
-      <widget class="QListView" name="listView"/>
+      <widget class="QListView" name="itemList"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="verticalLayout_799">
+      <layout class="QHBoxLayout" name="addRemoveLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="addButton">
          <property name="text">
           <string>Add</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="removeButton">
          <property name="text">
           <string>Remove</string>
          </property>
@@ -40,9 +40,9 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="rightLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout1">
+      <layout class="QHBoxLayout" name="sourceFileLine">
        <item>
         <widget class="QLabel" name="labelSourceFile">
          <property name="text">
@@ -67,7 +67,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="actionScriptLine">
        <item>
         <widget class="QLabel" name="labelClassName">
          <property name="text">
@@ -85,9 +85,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4233">
+      <layout class="QHBoxLayout" name="checkboxAndErrorLine">
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="useDefaultAudioSettings">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -130,9 +130,9 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout2">
+         <layout class="QHBoxLayout" name="horizontalLayoutCodec">
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="labelCodec">
             <property name="text">
              <string>Codec:</string>
             </property>
@@ -153,7 +153,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_3">
+           <spacer name="horizontalSpacerCodecSampleRate">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -166,7 +166,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="labelSampleRate">
             <property name="text">
              <string>Sample Rate:</string>
             </property>
@@ -195,7 +195,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_4">
+           <spacer name="horizontalSpacerSampleRateChannels">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -208,7 +208,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="labelChannels">
             <property name="text">
              <string>Channels:</string>
             </property>
@@ -258,16 +258,16 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
+            <layout class="QHBoxLayout" name="horizontalLayoutAlgorithmLabels">
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="labelAlgorithmHighQuality">
                <property name="text">
                 <string>0 (Higher quality, slower encode)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_6">
+              <widget class="QLabel" name="labelAlgorithmLowQuality">
                <property name="text">
                 <string>(Lower quality, faster encode) 9</string>
                </property>
@@ -304,16 +304,16 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QHBoxLayout" name="horizontalLayoutVbrLabels">
              <item>
-              <widget class="QLabel" name="label_8">
+              <widget class="QLabel" name="labelVbrHighQuality">
                <property name="text">
                 <string>0 (Higher quality, larger file)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_9">
+              <widget class="QLabel" name="labelVbrLowQuality">
                <property name="text">
                 <string>(Lower quality, smaller file) 9</string>
                </property>
@@ -338,9 +338,9 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout3">
+      <layout class="QHBoxLayout" name="footerLine">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="labelWebsite">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;a href=&quot;http://www.mjbshaw.com&quot; style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;www.mjbshaw.com&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -356,7 +356,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer2">
+        <spacer name="horizontalSpacerFooter">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
