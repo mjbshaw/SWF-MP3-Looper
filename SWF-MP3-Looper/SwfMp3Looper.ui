@@ -17,7 +17,11 @@
    <item>
     <layout class="QVBoxLayout" name="leftLayout">
      <item>
-      <widget class="QListView" name="itemList"/>
+      <widget class="QListView" name="itemList">
+       <property name="uniformItemSizes">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="addRemoveLayout">
