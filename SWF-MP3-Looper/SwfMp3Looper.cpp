@@ -4,6 +4,8 @@
 #include "AudioEncoder.hpp"
 #include "Swf.hpp"
 
+#include <QDragEnterEvent>
+#include <QDropEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -25,6 +27,16 @@ SwfMp3Looper::SwfMp3Looper(QWidget* parent) :
 
 SwfMp3Looper::~SwfMp3Looper()
 {
+}
+
+void SwfMp3Looper::dragEnterEvent(QDragEnterEvent* event)
+{
+    event->acceptProposedAction();
+}
+
+void SwfMp3Looper::dropEvent(QDropEvent* event)
+{
+    event->accept();
 }
 
 void SwfMp3Looper::textChanged()

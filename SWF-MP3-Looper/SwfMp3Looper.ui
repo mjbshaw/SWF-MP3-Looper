@@ -10,6 +10,9 @@
     <height>669</height>
    </rect>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Create a looped MP3 in a SWF (v1.1)</string>
   </property>

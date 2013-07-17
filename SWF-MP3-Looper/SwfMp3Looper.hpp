@@ -12,6 +12,9 @@ public:
     SwfMp3Looper(QWidget *parent = nullptr);
     ~SwfMp3Looper();
 
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
+
 private:
     Ui::SwfMp3Looper ui;
     bool cancelEncode;
