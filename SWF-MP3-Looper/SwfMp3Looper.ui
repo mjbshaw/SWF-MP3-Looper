@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Create a looped MP3 in a SWF</string>
   </property>
-  <layout class="QHBoxLayout" name="verticalLayout_999">
+  <layout class="QHBoxLayout" name="verticalLayoutMainContainer">
    <item>
     <layout class="QVBoxLayout" name="leftLayout">
      <item>
@@ -128,7 +128,7 @@
        <property name="title">
         <string>Audio Settings</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayoutAudioSettings">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayoutCodec">
           <item>
@@ -240,7 +240,7 @@
           <property name="title">
            <string>Algorithmic Quality</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayoutAlgorithmQuality">
            <item>
             <widget class="QSlider" name="algorithmicQualitySlider">
              <property name="maximum">
@@ -286,7 +286,7 @@
           <property name="title">
            <string>VBR Quality</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <layout class="QVBoxLayout" name="verticalLayoutVbrQuality">
            <item>
             <widget class="QSlider" name="vbrQualitySlider">
              <property name="maximum">
