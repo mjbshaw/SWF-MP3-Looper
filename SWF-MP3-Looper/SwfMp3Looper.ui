@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Create a looped MP3 in a SWF</string>
+   <string>Create a looped MP3 in a SWF (v1.1)</string>
   </property>
   <layout class="QHBoxLayout" name="verticalLayoutMainContainer">
    <item>
