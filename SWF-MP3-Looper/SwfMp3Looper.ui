@@ -341,6 +341,12 @@
       <layout class="QHBoxLayout" name="footerLine">
        <item>
         <widget class="QLabel" name="labelWebsite">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;a href=&quot;http://www.mjbshaw.com&quot; style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;www.mjbshaw.com&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -354,19 +360,6 @@
           <set>Qt::TextBrowserInteraction</set>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacerFooter">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item>
         <widget class="QPushButton" name="saveAsButton">
