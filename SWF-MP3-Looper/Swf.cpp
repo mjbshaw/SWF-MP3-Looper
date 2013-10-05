@@ -137,15 +137,11 @@ void Swf::close()
         throw std::logic_error("SWF isn't open for closing");
     }
 
-    std::vector<std::uint16_t> symbolClass(1 + classNames.size());
-    // Symbol count
-    symbolClass[0] = classNames.size();
+    std::uint16_t symbolCount = classNames.size();
 
-    std::uint32_t symbolClassSize = symbolClass.size() * 2;
+    std::uint32_t symbolClassSize = 2;
     for (std::size_t i = 0; i < classNames.size(); ++i)
     {
-        // Symbol ID/tag
-        symbolClass[1 + i] = i + 1;
         symbolClassSize += classNames[i].size() + 1;
     }
 
@@ -153,14 +149,19 @@ void Swf::close()
     std::uint16_t symbolClassHeader = (76 << 6) | 0x3f;
     if (!file.write((const char*)&symbolClassHeader, 2) ||
         !file.write((const char*)&symbolClassSize, 4) ||
-        !file.write((const char*)symbolClass.data(), symbolClass.size() * 2))
+        !file.write((const char*)&symbolCount, 2))
     {
         throw std::runtime_error("Error when writing the SWF's symbol table");
     }
 
-    for (auto& className : classNames)
+    for (std::size_t i = 0; i < classNames.size(); ++i)
     {
-        if (!file.write(className.c_str(), className.size() + 1))
+        // Symbol ID/tag
+        std::uint16_t tag = i+1;
+        std::string& className = classNames[i];
+
+        if (!file.write((const char*)&tag, 2) ||
+            !file.write(className.c_str(), className.size() + 1))
         {
             throw std::runtime_error("Error when writing the SWF's symbol table entries");
         }
