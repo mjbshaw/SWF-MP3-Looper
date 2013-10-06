@@ -19,6 +19,8 @@ LIBS += -L../lib -lavcodec -lavformat -lswresample -lavutil -lmp3lame
 win32 {
     # Debug build fails without this when using static Qt
     LIBS += -lgdi32
+
+    RC_FILE += ApplicationIcon.rc
 }
 
 
