@@ -37,6 +37,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="removeButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Remove</string>
          </property>
@@ -67,16 +70,6 @@
          </property>
          <property name="placeholderText">
           <string>(Required)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="selectFileButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Select File...</string>
          </property>
         </widget>
        </item>
